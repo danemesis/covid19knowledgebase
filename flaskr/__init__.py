@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask
+from flask import Flask, request
 
 from flaskr.knowledgeBase.__init__ import Data
 
@@ -32,13 +32,21 @@ def create_app(test_config=None):
         print('cannot load data')
 
     # a simple page that says hello
-    @app.route('/ping')
+    @app.route('/api/ping')
     def hello():
         return 'pong'
 
-    @app.route('/data')
+    @app.route('/api/v1/data', methods=['GET'])
     def data():
         data = Data()
-        return data.show_data()
+        return data.get_raw_data()
+
+    @app.route('/api/v1/question', methods=['GET'])
+    def question():
+        question = request.args.get('question', default='', type=str)
+        print(question)
+
+        data = Data()
+        return data.get_answers(question)
 
     return app

@@ -1,4 +1,18 @@
 {
+  "test": {
+    "category": "NO CATEGORY, it is a test",
+    "countries": ["if the array is empty, then consider this information applies to all countries"],
+    "answer": "some countries",
+    "links": [
+      "https://www.google.com"
+    ],
+    "additional answer": [
+      "maybe some additional information"
+    ],
+    "additional links": [
+      "https://www.bing.com/"
+    ]
+  },
   "what are the symptoms": {
     "category": "health",
     "countries": [],
