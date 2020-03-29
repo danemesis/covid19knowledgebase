@@ -6,10 +6,10 @@
     "links": [
       "https://www.google.com"
     ],
-    "additional answer": [
+    "additionalAnswers": [
       "maybe some additional information"
     ],
-    "additional links": [
+    "additionalLinks": [
       "https://www.bing.com/"
     ]
   },
@@ -20,10 +20,10 @@
     "links": [
       "https://www.nhs.uk/conditions/coronavirus-covid-19/symptoms-and-what-to-do/"
     ],
-    "additional answer": [
+    "additionalAnswers": [
       "Case definitions: Acute respiratory distress Syndrome; clinical or radiological evidence of pneumonia; influenza like illness"
     ],
-    "additional links": [
+    "additionalLinks": [
       "https://www.gov.uk/government/publications/wuhan-novel-coronavirus-initial-investigation-of-possible-cases/investigation-and-initial-clinical-management-of-possible-cases-of-wuhan-novel-coronavirus-wn-cov-infection#criteria"
     ]
   },

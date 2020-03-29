@@ -44,9 +44,12 @@ def create_app(test_config=None):
     @app.route('/api/v1/question', methods=['GET'])
     def question():
         question = request.args.get('question', default='', type=str)
-        print(question)
-
         data = Data()
-        return data.get_answers(question)
+        answer = data.get_answers(question)
+
+        print('\n==========>>>ANSWER on ', question)
+        print(answer)
+
+        return answer
 
     return app
