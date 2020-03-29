@@ -1,0 +1,60 @@
+{
+  "what are the symptoms": {
+    "category": "health",
+    "countries": [],
+    "answer": "High Temperature and new and continuous cough",
+    "links": [
+      "https://www.nhs.uk/conditions/coronavirus-covid-19/symptoms-and-what-to-do/"
+    ],
+    "additional answer": [
+      "Case definitions: Acute respiratory distress Syndrome; clinical or radiological evidence of pneumonia; influenza like illness"
+    ],
+    "additional links": [
+      "https://www.gov.uk/government/publications/wuhan-novel-coronavirus-initial-investigation-of-possible-cases/investigation-and-initial-clinical-management-of-possible-cases-of-wuhan-novel-coronavirus-wn-cov-infection#criteria"
+    ]
+  },
+  "how do I know I have corona infection": {
+    "category": "health",
+    "countries": [],
+    "links": [
+      "https://www.ecdc.europa.eu/sites/default/files/documents/RRA-sixth-update-Outbreak-of-novel-coronavirus-disease-2019-COVID-19.pdf"
+    ]
+  },
+  "what lockdown mean": {
+    "category": "daily living",
+    "countries": [],
+    "answer": "Lockdown means outlining a series of strict social measures, including the closure of non-essential shops and the banning of social gatherings, while ordering members of the public to stay at home with only a few exceptions.",
+    "links": []
+  },
+  "how will I manage bills and mortgage / rent if we lockdown": {
+    "category": "finance",
+    "countries": [
+      "UK",
+      "United Kingdom"
+    ],
+    "links": [
+      "https://www.telegraph.co.uk/money/consumer-affairs/coronavirus-three-month-mortgage-holiday-homeowners-rent-council/"
+    ]
+  },
+  "I missed too many days self-isolating, where to find help with money": {
+    "category": "finance",
+    "countries": [
+      "UK",
+      "United Kingdom"
+    ],
+    "links": [
+      "https://www.understandinguniversalcredit.gov.uk/coronavirus/"
+    ]
+  },
+  "are schools closed": {
+    "category": "eduction",
+    "countries": [
+      "UK",
+      "United Kingdom"
+    ],
+    "answer": "This link describes the situation with schools and gives references to political statements and guidances",
+    "links": [
+      "https://www.isc.co.uk/sector-info/coronavirus-information-for-schools/"
+    ]
+  }
+}
