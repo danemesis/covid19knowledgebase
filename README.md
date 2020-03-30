@@ -1,5 +1,6 @@
 # covid19knowledgebase
-It is the knowledgebase for COVID-19 related questions with links. **Not prodiction ready**
+It is the knowledgebase for COVID-19 related questions with links. **Not prodiction ready**.
+
 We definitely need Python guru here who can put code & python architecture of the application on the next level.
 
 ## Main dependencies
