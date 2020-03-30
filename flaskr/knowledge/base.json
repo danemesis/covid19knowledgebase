@@ -1,7 +1,9 @@
 {
   "test": {
-    "category": "NO CATEGORY, it is a test",
-    "countries": ["if the array is empty, then consider this information applies to all countries"],
+    "category": "TEST",
+    "countries": [
+      "if the array is empty, then consider this information applies to all countries"
+    ],
     "answer": "some countries",
     "links": [
       "https://www.google.com"
@@ -13,7 +15,7 @@
       "https://www.bing.com/"
     ]
   },
-  "what are the symptoms": {
+  "what are test the symptoms": {
     "category": "health",
     "countries": [],
     "answer": "High Temperature and new and continuous cough",
