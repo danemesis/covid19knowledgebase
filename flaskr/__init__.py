@@ -38,6 +38,10 @@ def create_app(test_config=None):
     def knowledge():
         return knowledgeManager.get_json_data()
 
+    @app.route('/api/v1/knowledge/meta', methods=['GET'])
+    def knowledge_meta():
+        return knowledgeManager.get_json_basic_functionality()
+
     @app.route('/api/v1/categories', methods=['GET'])
     def get_categories():
         headers = {"Content-Type": "application/json"}

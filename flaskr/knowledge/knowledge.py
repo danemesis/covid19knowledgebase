@@ -7,8 +7,11 @@ class KnowledgeManager:
     def __init__(self):
         self.knowledge = Knowledge()
 
+    def get_json_basic_functionality(self):
+        return self.knowledge.get_json_basic_functionality()
+
     def get_json_data(self):
-        return self.knowledge.get_json_data()
+        return self.knowledge.get_json_all_data()
 
     def get_categories(self):
         return self.knowledge.get_categories()
@@ -23,7 +26,13 @@ class Knowledge:
             self.jsonData = json.load(f)
         self.arrayData = self.jsonData.items()
 
-    def get_json_data(self):
+        with open('flaskr/knowledge/base_knowledge_meta.json') as f:
+            self.baseKnowledgeMetaJsonData = json.load(f)
+
+    def get_json_basic_functionality(self):
+        return self.baseKnowledgeMetaJsonData
+
+    def get_json_all_data(self):
         return self.jsonData
 
     def get_categories(self):
