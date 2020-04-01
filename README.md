@@ -20,3 +20,15 @@ We definitely need Python guru here who can put code & python architecture of th
 
 #### Start
 - `flask run`
+
+### Docker
+ **Go** and **run** knowledgeBase in docker container 
+
+1. Build the image
+```docker build -t covid-knowledgebase:latest .```
+
+- Run the container
+```docker run -d -p 5000:5000 covid-knowledgebase:latest```
+
+- Check application avalability
+```curl localhost:5000/api/ping```
