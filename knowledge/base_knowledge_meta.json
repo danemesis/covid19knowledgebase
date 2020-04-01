@@ -3,5 +3,11 @@
     "What are the symptoms?",
     "What lockdown mean?",
     "How do I know I have corona infection?"
+  ],
+  "categories": [
+    "health",
+    "daily living",
+    "finance",
+    "eduction"
   ]
 }

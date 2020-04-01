@@ -1,1 +1,0 @@
-venv/, a Python virtual environment where Flask and other dependencies are installed.
