@@ -38,6 +38,17 @@
     </div>
 
     <div class="form-group row">
+        <label class="col-sm-2 col-form-label" for="countries">Countries</label>
+        <div class="col-sm-10">
+            <input
+                    class="form-control"
+                    type="text"
+                    name="countries"
+                    id="countries"/>
+        </div>
+    </div>
+
+    <div class="form-group row">
         <label class="col-sm-2 col-form-label" for="answer">Answer</label>
         <div class="col-sm-10">
             <input
@@ -81,11 +92,47 @@
         </div>
     </div>
 
-    <div>
+    <div class="text-right">
         <input
-                class="btn btn-primary d-block ml-auto mr-2"
+                class="btn btn-danger mr-2"
+                type="reset"
+                value="Reset"/>
+        <input
+                class="btn btn-primary"
                 type="submit"
                 value="Add"/>
     </div>
 </form>
+
+{% for knowledge in all_data %}
+<table>
+    <tr>
+        <th>question</th>
+        <th>category</th>
+        <th>countries</th>
+        <th>answer</th>
+        <th>links</th>
+        <th>additionalAnswers</th>
+        <th>additionalLinks</th>
+        <th>dateCreated</th>
+        <th>action</th>
+    </tr>
+    <tr>
+        <td>{{ knowledge.question }}</td>
+        <td>{{ knowledge.category }}</td>
+        <td>{{ ';'.join(knowledge.countries) }}</td>
+        <td>{{ knowledge.answer }}</td>
+        <td>{{ ';'.join(knowledge.links) }}</td>
+        <td>{{ ';'.join(knowledge.additionalAnswers) }}</td>
+        <td>{{ ';'.join(knowledge.additionalLinks) }}</td>
+        <td>{{ knowledge.dateCreated.date() }}</td>
+        <td>
+            <a href="/delete/{{knowledge.id}}">Delete</a>
+            <br>
+            <a href="/update/{{knowledge.id}}">Update</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
 {% endblock %}
