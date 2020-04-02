@@ -1,5 +1,6 @@
 import json
 
+from flask import jsonify
 from fuzzywuzzy import fuzz
 
 from knowledge.tables import KnowledgeSchema, LogsSchema
@@ -50,7 +51,7 @@ class KnowledgeManager:
         except:
             print('Could not create a log')
 
-        return self.knowledgeDAL.get_all_data()
+        return jsonify(self.knowledgeDAL.get_all_data().items())
 
     def get_answers(self, question):
         new_question_log = LogsSchema(
@@ -78,6 +79,25 @@ class KnowledgeManager:
             print('Could not create a log')
 
         return answer
+
+    def add_knowledge(self,
+                      question,
+                      category,
+                      answer,
+                      countries,
+                      links,
+                      additional_answers,
+                      additional_links,
+                      ):
+        return self.knowledgeDAL.add_knowlegde(
+            question=question,
+            category=category,
+            answer=answer,
+            countries=countries,
+            links=links,
+            additional_answers=additional_answers,
+            additional_links=additional_links,
+        )
 
 
 class KnowledgeDAL:
@@ -111,19 +131,60 @@ class KnowledgeDAL:
 
         return results
 
+    def add_knowlegde(self,
+                      question,
+                      category,
+                      answer,
+                      countries,
+                      links,
+                      additional_answers,
+                      additional_links,
+                      ):
+        new_knowledge = KnowledgeSchema(
+            question=question,
+            category=category,
+            answer=answer,
+            countries=countries,
+            links=links,
+            additional_answers=additional_answers,
+            additional_links=additional_links,
+        )
+
+        try:
+            self.db.session.add(new_knowledge)
+            self.db.session.commit()
+            return 'Success'
+        except:
+            raise Exception('x should not exceed 5. The value of x was: {}'.format(x))
+
 
 class LogsManager:
     def __init__(self, db):
         self.db = db
         self.logsDAL = LogsDAL(db)
 
+    def add_dump(self):
+        return self.logsDAL.add_dump()
+
     def get_all(self):
-        return self.logsDAL.get_all()
+        return jsonify(self.logsDAL.get_all())
 
 
 class LogsDAL:
     def __init__(self, db):
         self.db = db
+
+    def add_dump(self):
+        new_question_log = LogsSchema(
+            type='DUMP',
+            message=('DUMPDUMPDUMP'),
+            info='DUMPDUMPDUMP'
+        )
+        try:
+            self.db.session.add(new_question_log)
+            self.db.session.commit()
+        except:
+            print('Could not create a log')
 
     def get_all(self):
         return self.db.session.query(LogsSchema).order_by(LogsSchema.date_created).all()

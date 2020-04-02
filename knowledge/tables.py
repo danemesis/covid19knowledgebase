@@ -1,3 +1,4 @@
+from dataclasses import dataclass
 from datetime import datetime
 
 from sqlalchemy import Column, Integer, String, DateTime
@@ -6,6 +7,7 @@ from sqlalchemy.ext.declarative import declarative_base
 Base = declarative_base()
 
 
+@dataclass
 class KnowledgeSchema(Base):
     __tablename__ = 'knowledge'
     id = Column(Integer, primary_key=True)
@@ -38,6 +40,7 @@ class KnowledgeSchema(Base):
         return self.id
 
 
+@dataclass
 class LogsSchema(Base):
     __tablename__ = 'logs'
     id = Column(Integer, primary_key=True)

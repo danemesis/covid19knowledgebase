@@ -46,38 +46,38 @@ def index():
 
 @app.route('/api/v1/ping', methods=['GET'])
 def ping():
+    logsManager.add_dump()
     return 'pong'
 
 
 @app.route('/api/v1/logs', methods=['GET'])
 def logs():
     logs = logsManager.get_all()
-    print('LOGS', str(logs))
     return logs
 
 
 @app.route('/api/v1/add', methods=['POST'])
 def add():
+    print(request.form['category'])
+
     question = request.form['question']
     category = request.form['category']
     answer = request.form['answer']
-    countries = request.formm['countries']
+    countries = request.form['countries']
     links = request.form['links']
-    additionalAnswers = request.form['additionalAnswers']
-    additionalLinks = request.form['additionalLinks']
-
-    new_knowledge = KnowledgeDb(
-        question=question,
-        category=category,
-        answer=answer,
-        countries=countries,
-        links=links,
-        additionalAnswers=additionalAnswers,
-        additionalLinks=additionalLinks,
-    )
+    additional_answers = request.form['additionalAnswers']
+    additional_links = request.form['additionalLinks']
 
     try:
-        db.session.add(new_knowledge)
+        knowledgeManager.add_knowledge(
+            question=question,
+            category=category,
+            answer=answer,
+            countries=countries,
+            links=links,
+            additional_answers=additional_answers,
+            additional_links=additional_links,
+        )
         db.session.commit()
         return redirect('/')
     except:
