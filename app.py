@@ -5,7 +5,6 @@ from flask_bootstrap import Bootstrap
 from flask_sqlalchemy import SQLAlchemy
 
 from knowledge.knowledge import KnowledgeManager, LogsManager
-from knowledge.tables import Base
 
 app = Flask(__name__)
 Bootstrap(app)
@@ -27,16 +26,16 @@ knowledgeManager = KnowledgeManager(db)
 logsManager = LogsManager(db)
 
 
-@app.before_first_request
-def setup():
-    Base.metadata.drop_all(bind=db.engine)
-    Base.metadata.create_all(bind=db.engine)
+# @app.before_first_request
+# def setup():
+#     Base.metadata.drop_all(bind=db.engine)
+#     Base.metadata.create_all(bind=db.engine)
 
 
 @app.route('/', methods=['GET'])
 def index():
-    # all_data = KnowledgeDb.query.order_by(KnowledgeDb.dateCreated).all()
-    # categories = knowledgeManager.get_categories()
+    all_data = knowledgeManager.get_all_data()
+    categories = knowledgeManager.get_meta_categories()
 
     return render_template(
         'index.html',
@@ -46,20 +45,20 @@ def index():
 
 @app.route('/api/v1/ping', methods=['GET'])
 def ping():
-    logsManager.add_dump()
     return 'pong'
 
 
 @app.route('/api/v1/logs', methods=['GET'])
 def logs():
-    logs = logsManager.get_all()
-    return logs
+    return make_response(
+        json.dumps(logsManager.get_all()),
+        200,
+        {"Content-Type": "application/json"}
+    )
 
 
 @app.route('/api/v1/add', methods=['POST'])
 def add():
-    print(request.form['category'])
-
     question = request.form['question']
     category = request.form['category']
     answer = request.form['answer']
@@ -78,7 +77,6 @@ def add():
             additional_answers=additional_answers,
             additional_links=additional_links,
         )
-        db.session.commit()
         return redirect('/')
     except:
         return 'There was a problem.'
@@ -86,7 +84,11 @@ def add():
 
 @app.route('/api/v1/knowledge', methods=['GET'])
 def knowledge():
-    return json.dumps(knowledgeManager.get_all_data())
+    return make_response(
+        knowledgeManager.get_all_data(),
+        200,
+        {"Content-Type": "application/json"}
+    )
 
 
 @app.route('/api/v1/knowledge/meta', methods=['GET'])
@@ -108,12 +110,12 @@ def get_categories():
 @app.route('/api/v1/question', methods=['GET'])
 def question():
     question = request.args.get('question', default='', type=str)
-    answer = knowledgeManager.get_answers(question)
+    answers = knowledgeManager.get_answers(question)
     headers = {"Content-Type": "application/json"}
 
     return \
         make_response(
-            json.dumps(answer),
+            json.dumps(answers),
             200,
             headers
         )

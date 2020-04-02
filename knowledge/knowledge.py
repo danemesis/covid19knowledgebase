@@ -1,84 +1,118 @@
 import json
 
-from flask import jsonify
 from fuzzywuzzy import fuzz
 
-from knowledge.tables import KnowledgeSchema, LogsSchema
+from dto.knowledge import KnowledgeDto
+from knowledge.logs import LogsManager
+from knowledge.tables import KnowledgeSchema
 
 
 class KnowledgeManager:
     def __init__(self, db):
         self.knowledgeDAL = KnowledgeDAL(db)
+        self.logManager = LogsManager(db)
         self.db = db
 
     def get_meta_all_data(self):
-        new_log = LogsSchema(
+        self.logManager.add_log(
             type='GET',
             message='Getting all meta',
-            info='get_meta_all_data'
+            info='get_meta_all_data',
         )
-        try:
-            self.db.session.add(new_log)
-            self.db.session.commit()
-        except:
-            print('Could not create a log')
 
-        return self.knowledgeDAL.get_meta_all_data()
+        all_meta = self.knowledgeDAL.get_meta_all_data()
+
+        self.logManager.add_log(
+            type='GOT',
+            message='GOT',
+            info='get_meta_all_data',
+        )
+
+        return all_meta
 
     def get_meta_categories(self):
-        new_log = LogsSchema(
+        self.logManager.add_log(
             type='GET',
-            message='Getting meta categories',
-            info='get_meta_categories'
+            message='Getting categories',
+            info='get_meta_categories',
         )
-        try:
-            self.db.session.add(new_log)
-            self.db.session.commit()
-        except:
-            print('Could not create a log')
 
-        return self.knowledgeDAL.get_meta_categories()
+        categories = self.knowledgeDAL.get_meta_categories()
+
+        self.logManager.add_log(
+            type='GOT',
+            message='GOT',
+            info='get_meta_categories',
+        )
+
+        return categories
 
     def get_all_data(self):
-        new_log = LogsSchema(
+        self.logManager.add_log(
             type='GET',
-            message='Getting all',
-            info='get_all_data'
+            message='Getting all data',
+            info='get_all_data',
         )
-        try:
-            self.db.session.add(new_log)
-            self.db.session.commit()
-        except:
-            print('Could not create a log')
 
-        return jsonify(self.knowledgeDAL.get_all_data().items())
+        results_dal = self.knowledgeDAL.get_all_data()
+        results_dto = []
+
+        for result_dal in results_dal:
+            results_dto.insert(
+                0,
+                KnowledgeDto(
+                    question=result_dal.__dict__['question'],
+                    category=result_dal.__dict__['category'],
+                    answer=result_dal.__dict__['answer'],
+                    links=result_dal.__dict__['links'],
+                    countries=result_dal.__dict__['countries'],
+                    additional_answers=result_dal.__dict__['additional_answers'],
+                    additional_links=result_dal.__dict__['additional_links'],
+                )
+            )
+
+        self.logManager.add_log(
+            type='GOT',
+            message='Getting all data.',
+            info='get_all_data',
+        )
+
+        print(results_dto)
+
+        return results_dto
 
     def get_answers(self, question):
-        new_question_log = LogsSchema(
-            type='GET ANSWER',
+        self.logManager.add_log(
+            type='[GET] Answer',
             message=('Getting answer for %d question' % question),
             info='get_answers'
         )
-        try:
-            self.db.session.add(new_question_log)
-            self.db.session.commit()
-        except:
-            print('Could not create a log')
 
-        answer = self.knowledgeDAL.get_answers(question)
+        results_all_dal = self.knowledgeDAL.get_all_data()
+        results_dto = []
 
-        new_answer_log = LogsSchema(
-            type='GOT ANSWER',
-            message=f'Got answer for {question} question. {answer} answer',
+        for result_data in results_all_dal:
+            if fuzz.token_set_ratio(result_data.__dict__['question'], question) > 95:
+                results_dto.insert(
+                    0,
+                    KnowledgeDto(
+                        question=result_data.__dict__['question'],
+                        category=result_data.__dict__['category'],
+                        answer=result_data.__dict__['answer'],
+                        links=result_data.__dict__['links'],
+                        countries=result_data.__dict__['countries'],
+                        additional_answers=result_data.__dict__['additional_answers'],
+                        additional_links=result_data.__dict__['additional_links'],
+                    )
+                )
+
+        self.logManager.add_log(
+            type='[GOT] Answer',
+            message=f'Got answer for {question} question. Answer ${json.dumps(results_dto)}',
             info='get_answers'
         )
-        try:
-            self.db.session.add(new_answer_log)
-            self.db.session.commit()
-        except:
-            print('Could not create a log')
 
-        return answer
+        return results_dto
 
     def add_knowledge(self,
                       question,
@@ -120,16 +154,7 @@ class KnowledgeDAL:
         return results
 
     def get_all_data(self):
-        return self.db.session.query(KnowledgeSchema).order_by(KnowledgeSchema.date_created).all()
-
-    def get_answers(self, question):
-        results = []
-
-        for knowledge in self.db.session.query(KnowledgeSchema).all():
-            if fuzz.token_set_ratio(knowledge.question, question) > 95:
-                results.insert(0, knowledge)
-
-        return results
+        return self.db.session.query(KnowledgeSchema).all()
 
     def add_knowlegde(self,
                       question,
@@ -156,35 +181,3 @@ class KnowledgeDAL:
             return 'Success'
         except:
             raise Exception('x should not exceed 5. The value of x was: {}'.format(x))
-
-
-class LogsManager:
-    def __init__(self, db):
-        self.db = db
-        self.logsDAL = LogsDAL(db)
-
-    def add_dump(self):
-        return self.logsDAL.add_dump()
-
-    def get_all(self):
-        return jsonify(self.logsDAL.get_all())
-
-
-class LogsDAL:
-    def __init__(self, db):
-        self.db = db
-
-    def add_dump(self):
-        new_question_log = LogsSchema(
-            type='DUMP',
-            message=('DUMPDUMPDUMP'),
-            info='DUMPDUMPDUMP'
-        )
-        try:
-            self.db.session.add(new_question_log)
-            self.db.session.commit()
-        except:
-            print('Could not create a log')
-
-    def get_all(self):
-        return self.db.session.query(LogsSchema).order_by(LogsSchema.date_created).all()

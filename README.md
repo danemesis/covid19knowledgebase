@@ -12,11 +12,7 @@ We definitely need Python guru here who can put code & python architecture of th
 - python version 3.8.1
 - pip version 20.0.2 
 - flask version 1.1.1
-
-#### Once
-##### **Windows, x64**
-- `set FLASK_APP=flaskr`
-- `set FLASK_ENV=development`
+- `set FLASK_ENV=development` for hot reloading (`export` instead of `set` on unix) 
 
 #### Start
 - `flask run`
