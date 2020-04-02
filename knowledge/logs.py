@@ -1,4 +1,3 @@
-from dto.log import LogDto
 from knowledge.tables import LogsSchema
 
 
@@ -12,14 +11,11 @@ class LogsManager:
         results_dto = []
 
         for result_dal in results_dal:
-            results_dto.insert(
-                0,
-                LogDto(
-                    type=result_dal.__dict__['type'],
-                    message=result_dal.__dict__['message'],
-                    info=result_dal.__dict__['info'],
-                )
-            )
+            logDto = {}
+            logDto['type'] = result_dal.__dict__['type']
+            logDto['message'] = result_dal.__dict__['message']
+            logDto['info'] = result_dal.__dict__['info']
+            results_dto.insert(0, logDto)
 
         return results_dto
 

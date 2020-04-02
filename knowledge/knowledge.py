@@ -2,7 +2,6 @@ import json
 
 from fuzzywuzzy import fuzz
 
-from dto.knowledge import KnowledgeDto
 from knowledge.logs import LogsManager
 from knowledge.tables import KnowledgeSchema
 
@@ -58,18 +57,19 @@ class KnowledgeManager:
         results_dto = []
 
         for result_dal in results_dal:
-            results_dto.insert(
-                0,
-                KnowledgeDto(
-                    question=result_dal.__dict__['question'],
-                    category=result_dal.__dict__['category'],
-                    answer=result_dal.__dict__['answer'],
-                    links=result_dal.__dict__['links'],
-                    countries=result_dal.__dict__['countries'],
-                    additional_answers=result_dal.__dict__['additional_answers'],
-                    additional_links=result_dal.__dict__['additional_links'],
-                )
-            )
+            knowledgeDto = {}
+
+            knowledgeDto['question'] = result_dal.__dict__['question']
+            knowledgeDto['category'] = result_dal.__dict__['category']
+            knowledgeDto['answer'] = result_dal.__dict__['answer']
+            knowledgeDto['links'] = result_dal.__dict__['links']
+            knowledgeDto['countries'] = result_dal.__dict__['countries']
+            knowledgeDto['additional_answers'] = result_dal.__dict__['additional_answers']
+            knowledgeDto['additional_links'] = result_dal.__dict__['additional_links']
+            knowledgeDto['date_created'] = result_dal.__dict__['date_created']
+
+            results_dto.insert(0, knowledgeDto)
+            print('knowledgeDto', knowledgeDto)
 
         self.logManager.add_log(
             type='GOT',
@@ -77,14 +77,12 @@ class KnowledgeManager:
             info='get_all_data',
         )
 
-        print(results_dto)
-
         return results_dto
 
     def get_answers(self, question):
         self.logManager.add_log(
             type='[GET] Answer',
-            message=('Getting answer for %d question' % question),
+            message=f'Getting answer for {question} question',
             info='get_answers'
         )
 
@@ -93,18 +91,16 @@ class KnowledgeManager:
 
         for result_data in results_all_dal:
             if fuzz.token_set_ratio(result_data.__dict__['question'], question) > 95:
-                results_dto.insert(
-                    0,
-                    KnowledgeDto(
-                        question=result_data.__dict__['question'],
-                        category=result_data.__dict__['category'],
-                        answer=result_data.__dict__['answer'],
-                        links=result_data.__dict__['links'],
-                        countries=result_data.__dict__['countries'],
-                        additional_answers=result_data.__dict__['additional_answers'],
-                        additional_links=result_data.__dict__['additional_links'],
-                    )
-                )
+                knowledgeDto = {}
+
+                knowledgeDto['question'] = result_data.__dict__['question']
+                knowledgeDto['category'] = result_data.__dict__['category']
+                knowledgeDto['answer'] = result_data.__dict__['answer']
+                knowledgeDto['links'] = result_data.__dict__['links']
+                knowledgeDto['countries'] = result_data.__dict__['countries']
+                knowledgeDto['additional_answers'] = result_data.__dict__['additional_answers']
+                knowledgeDto['additional_links'] = result_data.__dict__['additional_links']
+                results_dto.insert(0, knowledgeDto)
 
         self.logManager.add_log(
             type='[GOT] Answer',
@@ -139,19 +135,12 @@ class KnowledgeDAL:
         self.db = db
         with open('knowledge/knowledge_metadata.json') as f:
             self.knowledgeMetaJsonData = json.load(f)
-        self.arrayKnowledgeMeta = self.knowledgeMetaJsonData.items()
 
     def get_meta_all_data(self):
-        return self.arrayKnowledgeMeta
+        return self.knowledgeMetaJsonData
 
     def get_meta_categories(self):
-        results = []
-
-        categories = self.arrayKnowledgeMeta['categories']
-        for category in categories:
-            results.insert(0, category)
-
-        return results
+        return self.knowledgeMetaJsonData['categories']
 
     def get_all_data(self):
         return self.db.session.query(KnowledgeSchema).all()

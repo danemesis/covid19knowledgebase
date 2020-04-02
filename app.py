@@ -85,25 +85,9 @@ def add():
 @app.route('/api/v1/knowledge', methods=['GET'])
 def knowledge():
     return make_response(
-        knowledgeManager.get_all_data(),
+        json.dumps(knowledgeManager.get_all_data()),
         200,
         {"Content-Type": "application/json"}
-    )
-
-
-@app.route('/api/v1/knowledge/meta', methods=['GET'])
-def knowledge_meta():
-    return json.dumps(knowledgeManager.get_meta_all_data())
-
-
-@app.route('/api/v1/categories', methods=['GET'])
-def get_categories():
-    headers = {"Content-Type": "application/json"}
-
-    return make_response(
-        json.dumps(knowledgeManager.get_meta_categories()),
-        200,
-        headers
     )
 
 
@@ -119,3 +103,19 @@ def question():
             200,
             headers
         )
+
+
+@app.route('/api/v1/meta/all', methods=['GET'])
+def get_all_meta():
+    return json.dumps(knowledgeManager.get_meta_all_data())
+
+
+@app.route('/api/v1/meta/categories', methods=['GET'])
+def get_categories():
+    headers = {"Content-Type": "application/json"}
+
+    return make_response(
+        json.dumps(knowledgeManager.get_meta_categories()),
+        200,
+        headers
+    )

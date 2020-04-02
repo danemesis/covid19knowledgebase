@@ -9,7 +9,7 @@
 {% endblock %}
 
 {% block content  %}
-<form method="POST" action="/api/add" class="d-flex flex-column justify-content-center m-5">
+<form method="POST" action="/api/v1/add" class="d-flex flex-column justify-content-center m-5">
     <div class="form-group row">
         <label class="col-sm-2 col-form-label" for="question">Question</label>
         <div class="col-sm-10">
@@ -71,24 +71,24 @@
     </div>
 
     <div class="form-group row">
-        <label class="col-sm-2 col-form-label" for="additionalAnswers">Additional answer</label>
+        <label class="col-sm-2 col-form-label" for="additional_answers">Additional answer</label>
         <div class="col-sm-10">
             <input
                     class="form-control"
                     type="text"
-                    name="additionalAnswers"
-                    id="additionalAnswers"/>
+                    name="additional_answers"
+                    id="additional_answers"/>
         </div>
     </div>
 
     <div class="form-group row">
-        <label class="col-sm-2 col-form-label" for="additionalLinks">Additional links</label>
+        <label class="col-sm-2 col-form-label" for="additional_links">Additional links</label>
         <div class="col-sm-10">
             <input
                     class="form-control"
                     type="text"
-                    name="additionalLinks"
-                    id="additionalLinks"/>
+                    name="additional_links"
+                    id="additional_links"/>
         </div>
     </div>
 
@@ -104,7 +104,6 @@
     </div>
 </form>
 
-{% for knowledge in all_data %}
 <table>
     <tr>
         <th>question</th>
@@ -112,20 +111,21 @@
         <th>countries</th>
         <th>answer</th>
         <th>links</th>
-        <th>additionalAnswers</th>
-        <th>additionalLinks</th>
-        <th>dateCreated</th>
+        <th>additional answers</th>
+        <th>additional links</th>
+        <th>date created</th>
         <th>action</th>
     </tr>
+    {% for knowledge in all_data %}
     <tr>
         <td>{{ knowledge.question }}</td>
         <td>{{ knowledge.category }}</td>
-        <td>{{ ';'.join(knowledge.countries) }}</td>
+        <td>{{ knowledge.countries }}</td>
         <td>{{ knowledge.answer }}</td>
-        <td>{{ ';'.join(knowledge.links) }}</td>
-        <td>{{ ';'.join(knowledge.additionalAnswers) }}</td>
-        <td>{{ ';'.join(knowledge.additionalLinks) }}</td>
-        <td>{{ knowledge.dateCreated.date() }}</td>
+        <td>{{ knowledge.links }}</td>
+        <td>{{ knowledge.additional_answers }}</td>
+        <td>{{ knowledge.additional_links }}</td>
+        <td>{{ knowledge.date_created.date() }}</td>
         <td>
             <a href="/delete/{{knowledge.id}}">Delete</a>
             <br>
