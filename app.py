@@ -79,8 +79,9 @@ def update(id):
             return 'There was an updating problem.'
 
     else:
+        categories = knowledgeManager.get_meta_categories()
         knowledge = knowledgeManager.get_knowledge(id)
-        return render_template('update.html', knowledge=knowledge)
+        return render_template('update.html', knowledge=knowledge, categories=categories)
 
 
 @app.route('/api/v1/add', methods=['POST'])

@@ -28,13 +28,14 @@
         <div class="form-group row">
             <label class="col-sm-2 col-form-label" for="category">Category</label>
             <div class="col-sm-10">
-                <input
+                <select
+                        id="category"
                         class="form-control"
-                        readonly
-                        value="{{knowledge.category}}"
-                        type="text"
-                        name="category"
-                        id="category"/>
+                        name="category">
+                    {% for category in categories %}
+                    <option value="{{category}}">{{category}}</option>
+                    {% endfor %}
+                </select>
             </div>
         </div>
     </div>
