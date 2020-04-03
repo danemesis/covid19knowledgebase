@@ -43,18 +43,44 @@ def index():
     )
 
 
-@app.route('/api/v1/ping', methods=['GET'])
-def ping():
-    return 'pong'
+@app.route('/delete/<int:id>', methods=['GET'])
+def delete(id):
+    try:
+        knowledgeManager.delete_knowledge(id)
+        return redirect('/')
+    except:
+        return 'There was a problem with deleting.'
 
 
-@app.route('/api/v1/logs', methods=['GET'])
-def logs():
-    return make_response(
-        json.dumps(logsManager.get_all()),
-        200,
-        {"Content-Type": "application/json"}
-    )
+@app.route('/update/<int:id>', methods=['GET', 'POST'])
+def update(id):
+    if request.method == 'POST':
+        question = request.form['question']
+        category = request.form['category']
+        answer = request.form['answer']
+        countries = request.form['countries']
+        links = request.form['links']
+        additional_answers = request.form['additional_answers']
+        additional_links = request.form['additional_links']
+
+        try:
+            knowledgeManager.update_knowledge(
+                id=id,
+                question=question,
+                category=category,
+                answer=answer,
+                countries=countries,
+                links=links,
+                additional_answers=additional_answers,
+                additional_links=additional_links,
+            )
+            return redirect('/')
+        except:
+            return 'There was an updating problem.'
+
+    else:
+        knowledge = knowledgeManager.get_knowledge(id)
+        return render_template('update.html', knowledge=knowledge)
 
 
 @app.route('/api/v1/add', methods=['POST'])
@@ -79,7 +105,7 @@ def add():
         )
         return redirect('/')
     except:
-        return 'There was a problem.'
+        return 'There was an adding problem.'
 
 
 @app.route('/api/v1/knowledge', methods=['GET'])
@@ -118,4 +144,18 @@ def get_categories():
         json.dumps(knowledgeManager.get_meta_categories()),
         200,
         headers
+    )
+
+
+@app.route('/api/v1/ping', methods=['GET'])
+def ping():
+    return 'pong'
+
+
+@app.route('/api/v1/logs', methods=['GET'])
+def logs():
+    return make_response(
+        json.dumps(logsManager.get_all()),
+        200,
+        {"Content-Type": "application/json"}
     )

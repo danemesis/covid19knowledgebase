@@ -53,12 +53,13 @@ class KnowledgeManager:
             info='get_all_data',
         )
 
-        results_dal = self.knowledgeDAL.get_all_data()
+        results_all_dal = self.knowledgeDAL.get_all_data()
         results_dto = []
 
-        for result_dal in results_dal:
+        for result_dal in results_all_dal:
             knowledgeDto = {}
 
+            knowledgeDto['id'] = result_dal.__dict__['id']
             knowledgeDto['question'] = result_dal.__dict__['question']
             knowledgeDto['category'] = result_dal.__dict__['category']
             knowledgeDto['answer'] = result_dal.__dict__['answer']
@@ -79,6 +80,21 @@ class KnowledgeManager:
 
         return results_dto
 
+    def get_knowledge(self, id):
+        knowledge_dal = self.knowledgeDAL.get_knowledge(id)
+        knowledge_dto = {}
+
+        knowledge_dto['id'] = knowledge_dal.__dict__['id']
+        knowledge_dto['question'] = knowledge_dal.__dict__['question']
+        knowledge_dto['category'] = knowledge_dal.__dict__['category']
+        knowledge_dto['answer'] = knowledge_dal.__dict__['answer']
+        knowledge_dto['links'] = knowledge_dal.__dict__['links']
+        knowledge_dto['countries'] = knowledge_dal.__dict__['countries']
+        knowledge_dto['additional_answers'] = knowledge_dal.__dict__['additional_answers']
+        knowledge_dto['additional_links'] = knowledge_dal.__dict__['additional_links']
+
+        return knowledge_dto
+
     def get_answers(self, question):
         self.logManager.add_log(
             type='[GET] Answer',
@@ -89,17 +105,18 @@ class KnowledgeManager:
         results_all_dal = self.knowledgeDAL.get_all_data()
         results_dto = []
 
-        for result_data in results_all_dal:
-            if fuzz.token_set_ratio(result_data.__dict__['question'], question) > 95:
+        for result_dal in results_all_dal:
+            if fuzz.token_set_ratio(result_dal.__dict__['question'], question) > 95:
                 knowledgeDto = {}
 
-                knowledgeDto['question'] = result_data.__dict__['question']
-                knowledgeDto['category'] = result_data.__dict__['category']
-                knowledgeDto['answer'] = result_data.__dict__['answer']
-                knowledgeDto['links'] = result_data.__dict__['links']
-                knowledgeDto['countries'] = result_data.__dict__['countries']
-                knowledgeDto['additional_answers'] = result_data.__dict__['additional_answers']
-                knowledgeDto['additional_links'] = result_data.__dict__['additional_links']
+                knowledgeDto['id'] = result_dal.__dict__['id']
+                knowledgeDto['question'] = result_dal.__dict__['question']
+                knowledgeDto['category'] = result_dal.__dict__['category']
+                knowledgeDto['answer'] = result_dal.__dict__['answer']
+                knowledgeDto['links'] = result_dal.__dict__['links']
+                knowledgeDto['countries'] = result_dal.__dict__['countries']
+                knowledgeDto['additional_answers'] = result_dal.__dict__['additional_answers']
+                knowledgeDto['additional_links'] = result_dal.__dict__['additional_links']
                 results_dto.insert(0, knowledgeDto)
 
         self.logManager.add_log(
@@ -129,6 +146,30 @@ class KnowledgeManager:
             additional_links=additional_links,
         )
 
+    def delete_knowledge(self, id):
+        return self.knowledgeDAL.delete_knowledge(id)
+
+    def update_knowledge(self,
+                         id,
+                         question,
+                         category,
+                         answer,
+                         countries,
+                         links,
+                         additional_answers,
+                         additional_links,
+                         ):
+        return self.knowledgeDAL.update_knowledge(
+            id=id,
+            question=question,
+            category=category,
+            answer=answer,
+            countries=countries,
+            links=links,
+            additional_answers=additional_answers,
+            additional_links=additional_links,
+        )
+
 
 class KnowledgeDAL:
     def __init__(self, db):
@@ -144,6 +185,9 @@ class KnowledgeDAL:
 
     def get_all_data(self):
         return self.db.session.query(KnowledgeSchema).all()
+
+    def get_knowledge(self, id):
+        return self.db.session.query(KnowledgeSchema).get_or_404(id)
 
     def add_knowlegde(self,
                       question,
@@ -170,3 +214,36 @@ class KnowledgeDAL:
             return 'Success'
         except:
             raise Exception('x should not exceed 5. The value of x was: {}'.format(x))
+
+    def delete_knowledge(self, id):
+        knowledge_to_delete = self.db.session.query(KnowledgeSchema).get_or_404(id)
+
+        try:
+            self.db.session.delete(knowledge_to_delete)
+            return self.db.session.commit()
+        except:
+            raise Exception(f'Cannot delete knowledge with id ${id} from db')
+
+    def update_knowledge(self,
+                         id,
+                         question,
+                         category,
+                         answer,
+                         countries,
+                         links,
+                         additional_answers,
+                         additional_links,
+                         ):
+        knowledge_to_update = self.db.session.query(KnowledgeSchema).get_or_404(id)
+        knowledge_to_update.question = question
+        knowledge_to_update.category = category
+        knowledge_to_update.answer = answer
+        knowledge_to_update.countries = countries
+        knowledge_to_update.links = links
+        knowledge_to_update.additional_answers = additional_answers
+        knowledge_to_update.additional_links = additional_links
+
+        try:
+            return self.db.session.commit()
+        except:
+            raise Exception(f'Cannot update knowledge with id ${id} from db')
