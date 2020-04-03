@@ -64,8 +64,8 @@ def add():
     answer = request.form['answer']
     countries = request.form['countries']
     links = request.form['links']
-    additional_answers = request.form['additionalAnswers']
-    additional_links = request.form['additionalLinks']
+    additional_answers = request.form['additional_answers']
+    additional_links = request.form['additional_links']
 
     try:
         knowledgeManager.add_knowledge(
