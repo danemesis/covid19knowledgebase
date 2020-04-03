@@ -5,7 +5,6 @@ LABEL E-mail="proladge@gmail.com"
 LABEL version="1.0.0"
 
 ENV PYTHONDONTWRITEBYTECODE 1
-ENV FLASK_APP "flaskr"
 ENV FLASK_ENV "development"
 # ENV FLASK_DEBUG True
 ARG PORT
