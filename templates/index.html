@@ -104,18 +104,21 @@
     </div>
 </form>
 
-<table>
+<table class="table table-striped table-bordered table-hover table-responsive">
+    <thead class="thead-light">
     <tr>
-        <th>question</th>
-        <th>category</th>
-        <th>countries</th>
-        <th>answer</th>
-        <th>links</th>
-        <th>additional answers</th>
-        <th>additional links</th>
-        <th>date created</th>
-        <th>action</th>
+        <th scope="col">Question</th>
+        <th scope="col">Category</th>
+        <th scope="col">Countries</th>
+        <th scope="col">Answer</th>
+        <th scope="col">Links</th>
+        <th scope="col">Additional answers</th>
+        <th scope="col">Additional links</th>
+        <th scope="col">Date created</th>
+        <th scope="col">Action</th>
     </tr>
+    </thead>
+    <tbody>
     {% for knowledge in all_data %}
     <tr>
         <td>{{ knowledge.question }}</td>
@@ -125,7 +128,7 @@
         <td>{{ knowledge.links }}</td>
         <td>{{ knowledge.additional_answers }}</td>
         <td>{{ knowledge.additional_links }}</td>
-        <td>{{ knowledge.date_created.date() }}</td>
+        <td>{{ knowledge.date_created }}</td>
         <td>
             <a href="/delete/{{knowledge.id}}">Delete</a>
             <br>
@@ -133,6 +136,7 @@
         </td>
     </tr>
     {% endfor %}
+    </tbody>
 </table>
 
 {% endblock %}

@@ -66,10 +66,10 @@ class KnowledgeManager:
             knowledgeDto['countries'] = result_dal.__dict__['countries']
             knowledgeDto['additional_answers'] = result_dal.__dict__['additional_answers']
             knowledgeDto['additional_links'] = result_dal.__dict__['additional_links']
-            knowledgeDto['date_created'] = result_dal.__dict__['date_created']
+            knowledgeDto['date_created'] = result_dal.__dict__['date_created'].strftime(
+                "%m/%d/%y %H:%M:%S")
 
             results_dto.insert(0, knowledgeDto)
-            print('knowledgeDto', knowledgeDto)
 
         self.logManager.add_log(
             type='GOT',
