@@ -1,6 +1,6 @@
 import json
 
-from flask import Flask, request, make_response, render_template, redirect
+from flask import Flask, request, make_response, render_template, redirect, send_file
 from flask_bootstrap import Bootstrap
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy_utils import database_exists
@@ -38,6 +38,11 @@ def setup():
         # create_database(db.engine.url)
     # Base.metadata.drop_all(bind=db.engine)
     # Base.metadata.create_all(bind=db.engine)
+
+
+@app.route('/api/db', methods=['GET'])
+def get_db():
+    return send_file('knowledge/knowledge.db')
 
 
 @app.route('/', methods=['GET'])
