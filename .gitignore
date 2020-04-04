@@ -15,5 +15,5 @@ build/
 
 .idea
 
-/**/*.db
+# /**/*.db
 env/
