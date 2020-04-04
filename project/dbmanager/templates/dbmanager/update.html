@@ -1,17 +1,17 @@
 {% extends "bootstrap/base.html" %}
 
-{% block title %}COVID-19 Knowledgebase{% endblock %}
-
-{% block navbar %}
-<div class="navbar">
-    Update. DB Manager, stay safe!
-</div>
-{% endblock %}
+{% block title %}COVID-19 | Update Knowledgebase{% endblock %}
 
 {% block body %}
 <h1 style="text-align: center">Update knowledge</h1>
 
-<form method="POST" action="/update/{{knowledge.id}}" class="d-flex flex-column justify-content-center m-5">
+{% if message %}
+<p>{{message}}</p>
+{% endif %}
+
+<form method="POST" action="{{url_for('dbmanager.update', id=knowledge.id)}}"
+      class="d-flex flex-column justify-content-center m-5">
+    {{ knowledge_form.hidden_tag() }}
     <div class="form-group row">
         <label class="col-sm-2 col-form-label" for="question">Question</label>
         <div class="col-sm-10">

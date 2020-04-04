@@ -6,6 +6,20 @@
     <title>{% block head %}{% endblock %}</title>
 </head>
 <body>
+{% block navbar %}
+<div class="navbar">
+    Update. DB Manager, stay safe!
+</div>
+{% endblock %}
+
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+{% for message in messages %}
+<p>{{message}}</p>
+{% endfor %}
+{% endif %}
+{% endwith %}
+
 {% block body %}{% endblock %}
 </body>
 </html>

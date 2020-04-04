@@ -1,10 +1,10 @@
-from knowledge.tables import LogsSchema
+from project import db
+from project.tables import LogsSchema
 
 
 class LogsManager:
-    def __init__(self, db):
-        self.db = db
-        self.logsDAL = LogsDAL(db)
+    def __init__(self):
+        self.logsDAL = LogsDAL()
 
     def get_all(self):
         results_dal = self.logsDAL.get_all()
@@ -31,9 +31,6 @@ class LogsManager:
 
 
 class LogsDAL:
-    def __init__(self, db):
-        self.db = db
-
     def add_log(self,
                 type,
                 message,
@@ -44,10 +41,10 @@ class LogsDAL:
             info='get_meta_all_data'
         )
         try:
-            self.db.session.add(new_log)
-            return self.db.session.commit()
+            db.session.add(new_log)
+            return db.session.commit()
         except:
             print('Could not create a log')
 
     def get_all(self):
-        return self.db.session.query(LogsSchema).order_by(LogsSchema.date_created).all()
+        return db.session.query(LogsSchema).order_by(LogsSchema.date_created).all()

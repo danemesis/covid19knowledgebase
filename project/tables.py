@@ -1,6 +1,6 @@
-from dataclasses import dataclass
 from datetime import datetime
 
+from dataclasses import dataclass
 from sqlalchemy import Column, Integer, String, DateTime
 from sqlalchemy.ext.declarative import declarative_base
 
@@ -56,6 +56,23 @@ class LogsSchema(Base):
         self.type = type
         self.message = message
         self.info = info
+
+    def __repr__(self):
+        return self.id
+
+
+@dataclass
+class UnansweredQuestions(Base):
+    __tablename__ = 'unanswered'
+    id = Column(Integer, primary_key=True)
+    question = Column(String(1056), nullable=False)
+    asked = Column(Integer, nullable=False)
+
+    def __init__(self,
+                 question=None,
+                 asked=1):
+        self.question = question
+        self.asked = asked
 
     def __repr__(self):
         return self.id
