@@ -1,4 +1,7 @@
 # covid19knowledgebase
+
+Up & running, <a href='https://dan-covid19-knowledgebase.herokuapp.com/'>management</a>
+
 It is the knowledgebase for COVID-19 related questions with links. **Not prodiction ready**.
 
 We definitely need Python guru here who can put code & python architecture of the application on the next level.
