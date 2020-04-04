@@ -3,8 +3,10 @@ import json
 from flask import Flask, request, make_response, render_template, redirect
 from flask_bootstrap import Bootstrap
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy_utils import database_exists
 
 from knowledge.knowledge import KnowledgeManager, LogsManager
+from models.constants import DB_URL
 
 app = Flask(__name__)
 Bootstrap(app)
@@ -12,7 +14,7 @@ Bootstrap(app)
 app.config['TESTING'] = True
 app.config['TEMPLATES_AUTO_RELOAD'] = True
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///knowledge/knowledge.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = DB_URL
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 # app.config['BOOTSTRAP_USE_MINIFIED'] = False
 
@@ -26,10 +28,16 @@ knowledgeManager = KnowledgeManager(db)
 logsManager = LogsManager(db)
 
 
-# @app.before_first_request
-# def setup():
-#     Base.metadata.drop_all(bind=db.engine)
-#     Base.metadata.create_all(bind=db.engine)
+@app.before_first_request
+def setup():
+    if not database_exists(db.engine.url):
+        from knowledge.tables import Base
+        Base.metadata.create_all(db.engine)
+        # db.create_all()
+        # db.session.commit()
+        # create_database(db.engine.url)
+    # Base.metadata.drop_all(bind=db.engine)
+    # Base.metadata.create_all(bind=db.engine)
 
 
 @app.route('/', methods=['GET'])
