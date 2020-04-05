@@ -1,5 +1,6 @@
 import os
 
+from decorators.token import token_required
 from flask import Flask, redirect, url_for
 from flask_bootstrap import Bootstrap
 from flask_sqlalchemy import SQLAlchemy
@@ -36,5 +37,6 @@ def setup():
 
 
 @app.route('/', methods=['GET'])
+@token_required
 def index():
     return redirect(url_for('dbmanager.index'))

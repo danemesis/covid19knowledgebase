@@ -1,5 +1,6 @@
 from flask import request, redirect, render_template, Blueprint, url_for, flash
 
+from decorators.token import token_required
 from project.dbmanager.forms import KnowledgeForm
 from project.dbmanager.models import KnowledgeManager
 
@@ -13,6 +14,7 @@ knowledgeManager = KnowledgeManager()
 
 
 @dbmanager_blueprint.route('/')
+@token_required
 def index():
     all_data = knowledgeManager.get_all_data()
     categories = knowledgeManager.get_meta_categories()
@@ -25,6 +27,7 @@ def index():
 
 
 @dbmanager_blueprint.route('/add', methods=['POST'])
+@token_required
 def add():
     add_form = KnowledgeForm(request.form)
     if add_form.validate():
@@ -47,6 +50,7 @@ def add():
 
 
 @dbmanager_blueprint.route('/delete/<int:id>', methods=['GET'])
+@token_required
 def delete(id):
     try:
         knowledgeManager.delete_knowledge(id)
@@ -57,6 +61,7 @@ def delete(id):
 
 
 @dbmanager_blueprint.route('/update/<int:id>', methods=['GET', 'POST'])
+@token_required
 def update(id):
     categories = knowledgeManager.get_meta_categories()
     knowledge = knowledgeManager.get_knowledge(id)

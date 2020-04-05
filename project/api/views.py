@@ -1,4 +1,5 @@
 import json
+from decorators.token import token_required
 
 from flask import request, Blueprint, send_file, make_response
 
@@ -18,11 +19,13 @@ json_headers = {"Content-Type": "application/json"}
 
 
 @api_v1_blueprint.route('/db', methods=['GET'])
+@token_required
 def api_get_db():
     return send_file('db/knowledge.db')
 
 
 @api_v1_blueprint.route('/add', methods=['POST'])
+@token_required
 def api_add():
     add_form = KnowledgeForm(request.form)
     if add_form.validate():
@@ -48,6 +51,7 @@ def api_add():
 
 
 @api_v1_blueprint.route('/knowledge', methods=['GET'])
+@token_required
 def api_knowledge():
     return make_response(
         json.dumps(knowledgeManager.get_all_data()),
@@ -57,6 +61,7 @@ def api_knowledge():
 
 
 @api_v1_blueprint.route('/unanswered', methods=['GET'])
+@token_required
 def api_unanswered():
     return make_response(
         json.dumps(unAnsweredManager.get_unanswered()),
@@ -66,6 +71,7 @@ def api_unanswered():
 
 
 @api_v1_blueprint.route('/unanswered/<int:id>', methods=['DELETE'])
+@token_required
 def api_delete_unanswered(id):
     return make_response(
         json.dumps(unAnsweredManager.delete_unanswered(id=id)),
@@ -75,6 +81,7 @@ def api_delete_unanswered(id):
 
 
 @api_v1_blueprint.route('/question', methods=['GET'])
+@token_required
 def api_question():
     question = request.args.get('question', default='', type=str)
     answers = knowledgeManager.get_answers(question)
@@ -90,11 +97,13 @@ def api_question():
 
 
 @api_v1_blueprint.route('/meta/all', methods=['GET'])
+@token_required
 def api_get_all_meta():
     return json.dumps(knowledgeManager.get_meta_all_data())
 
 
 @api_v1_blueprint.route('/meta/categories', methods=['GET'])
+@token_required
 def api_get_categories():
     return make_response(
         json.dumps(knowledgeManager.get_meta_categories()),
