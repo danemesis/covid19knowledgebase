@@ -17,3 +17,6 @@ build/
 
 # /**/*.db
 env/
+
+# db backups
+backup/

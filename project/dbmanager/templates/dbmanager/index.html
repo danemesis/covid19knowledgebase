@@ -1,15 +1,10 @@
 {% extends "bootstrap/base.html" %}
 
-{% block title %}COVID-19 Knowledgebase{% endblock %}
-
-{% block navbar %}
-<div class="navbar">
-    DB Manager, stay safe!
-</div>
-{% endblock %}
+{% block title %}COVID-19 | Knowledgebase{% endblock %}
 
 {% block content  %}
-<form method="POST" action="/api/v1/add" class="d-flex flex-column justify-content-center m-5">
+<form method="POST" action="{{url_for('dbmanager.add')}}" class="d-flex flex-column justify-content-center m-5">
+    {{knowledge_form.hidden_tag()}}
     <div class="form-group row">
         <label class="col-sm-2 col-form-label" for="question">Question</label>
         <div class="col-sm-10">
@@ -130,9 +125,9 @@
         <td>{{ knowledge.additional_links }}</td>
         <td>{{ knowledge.date_created }}</td>
         <td>
-            <a href="/delete/{{knowledge.id}}">Delete</a>
+            <a href="{{url_for('dbmanager.delete', id=knowledge.id)}}">Delete</a>
             <br>
-            <a href="/update/{{knowledge.id}}">Update</a>
+            <a href="{{url_for('dbmanager.update', id=knowledge.id)}}">Update</a>
         </td>
     </tr>
     {% endfor %}

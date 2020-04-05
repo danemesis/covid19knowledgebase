@@ -1,0 +1,278 @@
+{
+	"info": {
+		"_postman_id": "d96686b9-823b-4a2e-98c0-41932f318894",
+		"name": "covid19knowledgebase prod",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "ping",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://dan-covid19-knowledgebase.herokuapp.com/api/v1/ping",
+					"protocol": "https",
+					"host": [
+						"dan-covid19-knowledgebase",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"api",
+						"v1",
+						"ping"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "index html",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://dan-covid19-knowledgebase.herokuapp.com/manager/",
+					"protocol": "https",
+					"host": [
+						"dan-covid19-knowledgebase",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"manager",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "all knowledge",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://dan-covid19-knowledgebase.herokuapp.com/api/v1/knowledge",
+					"protocol": "https",
+					"host": [
+						"dan-covid19-knowledgebase",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"api",
+						"v1",
+						"knowledge"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ask question",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://dan-covid19-knowledgebase.herokuapp.com/api/v1/question?question=is dangerous",
+					"protocol": "https",
+					"host": [
+						"dan-covid19-knowledgebase",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"api",
+						"v1",
+						"question"
+					],
+					"query": [
+						{
+							"key": "question",
+							"value": "is dangerous"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "all unanswered questions",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://dan-covid19-knowledgebase.herokuapp.com/api/v1/unanswered",
+					"protocol": "https",
+					"host": [
+						"dan-covid19-knowledgebase",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"api",
+						"v1",
+						"unanswered"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete unanswered question Copy",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://dan-covid19-knowledgebase.herokuapp.com/api/v1/unanswered/1",
+					"protocol": "https",
+					"host": [
+						"dan-covid19-knowledgebase",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"api",
+						"v1",
+						"unanswered",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "meta all",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://dan-covid19-knowledgebase.herokuapp.com/api/v1/meta/all",
+					"protocol": "https",
+					"host": [
+						"dan-covid19-knowledgebase",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"api",
+						"v1",
+						"meta",
+						"all"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "meta categories",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://dan-covid19-knowledgebase.herokuapp.com/api/v1/meta/categories",
+					"protocol": "https",
+					"host": [
+						"dan-covid19-knowledgebase",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"api",
+						"v1",
+						"meta",
+						"categories"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "all logs",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://dan-covid19-knowledgebase.herokuapp.com/api/v1/logs",
+					"protocol": "https",
+					"host": [
+						"dan-covid19-knowledgebase",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"api",
+						"v1",
+						"logs"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "add knowledge",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "question",
+							"value": "is dangerous",
+							"type": "text"
+						},
+						{
+							"key": "category",
+							"value": "categorycategorycategorycategory",
+							"type": "text"
+						},
+						{
+							"key": "answer",
+							"value": "High Temperature and new and continuous cough",
+							"type": "text"
+						},
+						{
+							"key": "countries",
+							"value": "countries",
+							"type": "text"
+						},
+						{
+							"key": "links",
+							"value": "links",
+							"type": "text"
+						},
+						{
+							"key": "additionalAnswers",
+							"value": "additional_answers",
+							"type": "text"
+						},
+						{
+							"key": "additionalLinks",
+							"value": "additional_links",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://dan-covid19-knowledgebase.herokuapp.com/api/v1/add",
+					"protocol": "https",
+					"host": [
+						"dan-covid19-knowledgebase",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"api",
+						"v1",
+						"add"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

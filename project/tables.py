@@ -1,7 +1,7 @@
-from dataclasses import dataclass
 from datetime import datetime
 
-from sqlalchemy import Column, Integer, String, DateTime
+from dataclasses import dataclass
+from sqlalchemy import Column, Integer, String, DateTime, TEXT
 from sqlalchemy.ext.declarative import declarative_base
 
 Base = declarative_base()
@@ -11,13 +11,13 @@ Base = declarative_base()
 class KnowledgeSchema(Base):
     __tablename__ = 'knowledge'
     id = Column(Integer, primary_key=True)
-    question = Column(String(256), nullable=False)
-    category = Column(String(256), nullable=False)
-    answer = Column(String(1024), nullable=True)
-    links = Column(String(2056), nullable=True)
-    countries = Column(String(2056), nullable=True)
-    additional_answers = Column(String(2056), nullable=True)
-    additional_links = Column(String(2056), nullable=True)
+    question = Column(String(2056), nullable=False)
+    category = Column(String(512), nullable=False)
+    answer = Column(TEXT, nullable=True)
+    links = Column(TEXT, nullable=True)
+    countries = Column(TEXT, nullable=True)
+    additional_answers = Column(TEXT, nullable=True)
+    additional_links = Column(TEXT, nullable=True)
     date_created = Column(DateTime, default=datetime.utcnow)
 
     def __init__(self,
@@ -44,9 +44,9 @@ class KnowledgeSchema(Base):
 class LogsSchema(Base):
     __tablename__ = 'logs'
     id = Column(Integer, primary_key=True)
-    type = Column(String(256), nullable=False)
-    message = Column(String(5120), nullable=False)
-    info = Column(String(2056), nullable=True)
+    type = Column(String(2056), nullable=False)
+    message = Column(TEXT, nullable=False)
+    info = Column(TEXT, nullable=True)
     date_created = Column(DateTime, default=datetime.utcnow)
 
     def __init__(self,
@@ -56,6 +56,23 @@ class LogsSchema(Base):
         self.type = type
         self.message = message
         self.info = info
+
+    def __repr__(self):
+        return self.id
+
+
+@dataclass
+class UnansweredQuestions(Base):
+    __tablename__ = 'unanswered'
+    id = Column(Integer, primary_key=True)
+    question = Column(TEXT, nullable=False)
+    asked = Column(Integer, nullable=False)
+
+    def __init__(self,
+                 question=None,
+                 asked=1):
+        self.question = question
+        self.asked = asked
 
     def __repr__(self):
         return self.id
