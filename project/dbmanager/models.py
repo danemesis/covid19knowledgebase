@@ -13,45 +13,16 @@ class KnowledgeManager:
         self.logManager = LogsManager()
 
     def get_meta_all_data(self):
-        # self.logManager.add_log(
-        #     type='GET',
-        #     message='Getting all meta',
-        #     info='get_meta_all_data',
-        # )
-
         all_meta = self.knowledgeDAL.get_meta_all_data()
-
-        # self.logManager.add_log(
-        #     type='GOT',
-        #     message='GOT',
-        #     info='get_meta_all_data',
-        # )
 
         return all_meta
 
     def get_meta_categories(self):
-        # self.logManager.add_log(
-        #     type='GET',
-        #     message='Getting categories',
-        #     info='get_meta_categories',
-        # )
-
         categories = self.knowledgeDAL.get_meta_categories()
-
-        # self.logManager.add_log(
-        #     type='GOT',
-        #     message='GOT',
-        #     info='get_meta_categories',
-        # )
 
         return categories
 
     def get_all_data(self):
-        # self.logManager.add_log(
-        #     type='GET',
-        #     message='Getting all data',
-        #     info='get_all_data',
-        # )
 
         results_all_dal = self.knowledgeDAL.get_all_data()
         results_dto = []
@@ -72,12 +43,6 @@ class KnowledgeManager:
 
             results_dto.insert(0, knowledgeDto)
 
-        # self.logManager.add_log(
-        #     type='GOT',
-        #     message='Getting all data.',
-        #     info='get_all_data',
-        # )
-
         return results_dto
 
     def get_knowledge(self, id):
@@ -96,12 +61,6 @@ class KnowledgeManager:
         return knowledge_dto
 
     def get_answers(self, question):
-        # self.logManager.add_log(
-        #     type='[GET] Answer',
-        #     message=f'Getting answer for {question} question',
-        #     info='get_answers'
-        # )
-
         results_all_dal = self.knowledgeDAL.get_all_data()
         results_dto = []
 
@@ -118,12 +77,6 @@ class KnowledgeManager:
                 knowledgeDto['additional_answers'] = result_dal.__dict__['additional_answers']
                 knowledgeDto['additional_links'] = result_dal.__dict__['additional_links']
                 results_dto.insert(0, knowledgeDto)
-
-        # self.logManager.add_log(
-        #     type='[GOT] Answer',
-        #     message=f'Got answer for {question} question. Answer ${json.dumps(results_dto)}',
-        #     info='get_answers'
-        # )
 
         return results_dto
 
@@ -304,5 +257,4 @@ class UnAnsweredManager:
                     raise Exception(f'Cannot update knowledge with id ${id} from db')
 
         except Exception as e:
-            # raise e
             print(f'Create error. ' + str(e))
