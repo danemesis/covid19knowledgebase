@@ -19,7 +19,7 @@ json_headers = {"Content-Type": "application/json"}
 
 @api_v1_blueprint.route('/db', methods=['GET'])
 def api_get_db():
-    return send_file('project/db/knowledge.db')
+    return send_file('db/knowledge.db')
 
 
 @api_v1_blueprint.route('/add', methods=['POST'])
