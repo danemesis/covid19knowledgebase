@@ -30,11 +30,13 @@ app.register_blueprint(api_v1_blueprint, url_prefix='/api/v1')
 @app.before_first_request
 def setup():
     # if not database_exists(db.engine.url):
+
     from project.tables import Base
-    Base.metadata.create_all(db.engine)
-        # db.create_all()
-        # db.session.commit()
-        # create_database(db.engine.url)
+    Base.metadata.create_all(db.engine)  # will not re-write existing tables, just will create new one
+
+    # db.create_all()
+    # db.session.commit()
+    # create_database(db.engine.url)
     # Base.metadata.drop_all(bind=db.engine)
     # Base.metadata.create_all(bind=db.engine)
 
