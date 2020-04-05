@@ -16,7 +16,7 @@ app.config['TEMPLATES_AUTO_RELOAD'] = True
 
 app.config['SQLALCHEMY_DATABASE_URI'] = DB_URL
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-# app.config['BOOTSTRAP_USE_MINIFIED'] = False
+app.config['BOOTSTRAP_USE_MINIFIED'] = False
 
 db = SQLAlchemy(app)
 
@@ -33,12 +33,6 @@ def setup():
 
     from project.tables import Base
     Base.metadata.create_all(db.engine)  # will not re-write existing tables, just will create new one
-
-    # db.create_all()
-    # db.session.commit()
-    # create_database(db.engine.url)
-    # Base.metadata.drop_all(bind=db.engine)
-    # Base.metadata.create_all(bind=db.engine)
 
 
 @app.route('/', methods=['GET'])
