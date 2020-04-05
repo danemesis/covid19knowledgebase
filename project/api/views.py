@@ -82,12 +82,11 @@ def api_question():
     if not answers:
         unAnsweredManager.set_unaswered(question)
 
-    return \
-        make_response(
-            json.dumps(answers),
-            200,
-            json_headers
-        )
+    return make_response(
+        json.dumps(answers),
+        200,
+        json_headers
+    )
 
 
 @api_v1_blueprint.route('/meta/all', methods=['GET'])
