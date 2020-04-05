@@ -1,9 +1,11 @@
 import json
+from decorators.token import token_required
 
-from flask import Flask, request, make_response, render_template, redirect, send_file
+from flask import Flask, request, make_response, render_template, redirect, send_file, jsonify
 from flask_bootstrap import Bootstrap
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy_utils import database_exists
+
 
 from knowledge.knowledge import KnowledgeManager, LogsManager
 from models.constants import DB_URL
@@ -46,6 +48,7 @@ def get_db():
 
 
 @app.route('/', methods=['GET'])
+@token_required
 def index():
     all_data = knowledgeManager.get_all_data()
     categories = knowledgeManager.get_meta_categories()
@@ -57,6 +60,7 @@ def index():
 
 
 @app.route('/delete/<int:id>', methods=['GET'])
+@token_required
 def delete(id):
     try:
         knowledgeManager.delete_knowledge(id)
@@ -66,6 +70,7 @@ def delete(id):
 
 
 @app.route('/update/<int:id>', methods=['GET', 'POST'])
+@token_required
 def update(id):
     if request.method == 'POST':
         question = request.form['question']
@@ -98,6 +103,7 @@ def update(id):
 
 
 @app.route('/api/v1/add', methods=['POST'])
+@token_required
 def add():
     question = request.form['question']
     category = request.form['category']
@@ -123,6 +129,7 @@ def add():
 
 
 @app.route('/api/v1/knowledge', methods=['GET'])
+@token_required
 def knowledge():
     return make_response(
         json.dumps(knowledgeManager.get_all_data()),
@@ -132,6 +139,7 @@ def knowledge():
 
 
 @app.route('/api/v1/question', methods=['GET'])
+@token_required
 def question():
     question = request.args.get('question', default='', type=str)
     answers = knowledgeManager.get_answers(question)
@@ -146,11 +154,13 @@ def question():
 
 
 @app.route('/api/v1/meta/all', methods=['GET'])
+@token_required
 def get_all_meta():
     return json.dumps(knowledgeManager.get_meta_all_data())
 
 
 @app.route('/api/v1/meta/categories', methods=['GET'])
+@token_required
 def get_categories():
     headers = {"Content-Type": "application/json"}
 
