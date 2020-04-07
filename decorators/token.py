@@ -11,10 +11,10 @@ def token_required(f):
     def decorator(*args, **kwargs):
         token = None
 
-        if 'x-access-tokens' in request.headers:
-            token = request.headers['x-access-tokens']
-        elif 'x-access-tokens' in request.cookies:
-            token = request.cookies['x-access-tokens']
+        if 'x-access-token' in request.headers:
+            token = request.headers['x-access-token']
+        elif 'x-access-token' in request.cookies:
+            token = request.cookies['x-access-token']
         else:
             return jsonify({'message': 'a valid token is missing'})
         if token == key:
