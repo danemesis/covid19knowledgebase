@@ -9,7 +9,6 @@ from project.constants import DB_URL
 
 app = Flask(__name__)
 Bootstrap(app)
-SECRET_KEY = os.urandom(32)
 
 app.config['SECRET_KEY'] = os.urandom(32)
 app.config['TESTING'] = True
