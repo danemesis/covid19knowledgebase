@@ -7,8 +7,9 @@ CALL SET "Min=%TIME:~3,2%"
 CALL SET "Sec=%TIME:~6,2%"
 CALL SET "fullstamp=%YYYY%-%MM%-%DD%_%HH%-%Min%-%Sec%"
 
+CALL CD ..
 CALL MKDIR backup
 CALL CD backup
 CALL CURL -H "x-access-token: %1" https://dan-covid19-knowledgebase.herokuapp.com/api/v1/db -o "knowledge.db"
-CALL COPY knowledge.db knowledgebase_%fullstamp%.db
-CALL CD ..
+CALL COPY knowledge.db knowledgebase_%fullstamp: =0%.db
+CALL CD ../infrastructure
