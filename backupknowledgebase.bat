@@ -9,6 +9,6 @@ CALL SET "fullstamp=%YYYY%-%MM%-%DD%_%HH%-%Min%-%Sec%"
 
 CALL MKDIR backup
 CALL CD backup
-CALL CURL -H "x-access-token: supersecretkey" https://dan-covid19-knowledgebase.herokuapp.com/api/v1/db -o "knowledge.db"
+CALL CURL -H "x-access-token: %1" https://dan-covid19-knowledgebase.herokuapp.com/api/v1/db -o "knowledge.db"
 CALL COPY knowledge.db knowledgebase_%fullstamp%.db
 CALL CD ..
