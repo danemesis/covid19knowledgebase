@@ -13,3 +13,7 @@ Be aware that you need:
 
 Run it with providing **x-Access-token**
 ```SetUpBackuping.bat [x-Access-token]```
+
+## For single time backup
+#### Just run 
+```backupknowledgebase.bat [x-Access-token]```
