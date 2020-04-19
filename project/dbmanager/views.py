@@ -17,6 +17,9 @@ knowledgeManager = KnowledgeManager()
 @token_required
 def index():
     all_data = knowledgeManager.get_all_data()
+    for item in all_data:
+        item['splitedLinks'] = item['links'].split(';')
+        item['splitedAdditionalLinks'] = item['additional_links'].split(';')
     categories = knowledgeManager.get_meta_categories()
     knowledge_form = KnowledgeForm()
 
