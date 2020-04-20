@@ -12,15 +12,7 @@
 </div>
 {% endblock %}
 
-{% with messages = get_flashed_messages() %}
-{% if messages %}
-{% for message in messages %}
-<p>{{message}}</p>
-{% endfor %}
-{% endif %}
-{% endwith %}
-
-{% block body %}{% endblock %}
+{% block content %}{% endblock %}
 <footer>Developed by Dan Bilokha </footer>
 </body>
 </html>
